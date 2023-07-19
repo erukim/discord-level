@@ -1,6 +1,6 @@
 {
   "name": "level-discord",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Discord Chat and Voice Level System",
   "main": "index.js",
   "types": "index.d.ts",
