@@ -3,7 +3,6 @@
 // Definitions by: Nico Finkernagel <https://github.com/gruselhaus/>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-import { Client, Guild } from "discord.js";
 import { ConnectOptions } from "mongoose";
 
 export type User = {
