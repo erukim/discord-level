@@ -2,7 +2,8 @@
   "name": "@erukim/discord-level",
   "version": "1.0.0",
   "description": "Discord 레벨 시스템을 Voice 와 Chat 시스템으로 분리 하였습니다.",
-  "main": "index.ts",
+  "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
