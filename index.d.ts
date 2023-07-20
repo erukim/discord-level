@@ -37,7 +37,7 @@ export interface Level {
   type: Level_Type;
 }
 
-declare module "@erukim/discord-level" {
+declare module "level-discord" {
   export default class Levels {
     static async setURL(dbURL: string, options: ConnectOptions): Promise<typeof import("mongoose")>;
     static async createUser(userId: string, guildId: string, types: Level_Type): Promise<User>;
