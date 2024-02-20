@@ -43,6 +43,7 @@ declare module "level-discord" {
     static async createUser(userId: string, guildId: string, types: Level_Type): Promise<User>;
     static async deleteUser(userId: string, guildId: string, types: Level_Type): Promise<User>;
     static async deleteGuild(guildId: string, types: Level_Type): Promise<Guild>;
+    static async ResetLevel(): Promise<boolean>;
     static async appendXp(userId: string, guildId: string, xp: number, types: Level_Type): Promise<boolean>;
     static async appendLevel(userId: string, guildId: string, levels: number, types: Level_Type): Promise<User>;
     static async setXp(userId: string, guildId: string, xp: number, types: Level_Type): Promise<User>;
