@@ -312,6 +312,11 @@ class DiscordXp {
 
     return guild;
   }
+
+  static async ResetLevel() {
+    await levels.deleteMany().catch(e => console.log(`Failed to delete guild: ${e}`));
+    return true
+  }
 }
 
 module.exports = DiscordXp;
