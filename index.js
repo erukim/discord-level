@@ -1,26 +1,25 @@
 const mongoose = require("mongoose");
 const levels = require("./models/levels.js");
-var mongoUrl;
 
 class DiscordXp {
-
+  mongoUrl;
+  
   /**
-  * @param {string} [dbUrl] - A valid mongo database URI.
-  */
-
+   * MongoDB에 연결하기 위한 URI를 설정합니다.
+   * @param {string} [dbUrl] - A valid mongo database URI.
+   */
   static async setURL(dbUrl, options) {
     if (!dbUrl) throw new TypeError("A database url was not provided.");
     if (!options) throw new TypeError("A database options was not provided.");
-    mongoUrl = dbUrl;
+    this.mongoUrl = dbUrl;
     return mongoose.connect(dbUrl, options);
   }
 
   /**
   * @param {string} [userId] - Discord user id.
   * @param {string} [guildId] - Discord guild id.
-  * @param {import("./typings/index.js").Level_Type} types
+  * @param {import("./index.d.ts").Level_Type} types
   */
-
   static async createUser(userId, guildId, types) {
     if (!userId) throw new TypeError("An user id was not provided.");
     if (!guildId) throw new TypeError("A guild id was not provided.");
@@ -40,7 +39,6 @@ class DiscordXp {
   * @param {string} [guildId] - Discord guild id.
   * @param {import("./typings/index.js").Level_Type} types
   */
-
   static async deleteUser(userId, guildId, types) {
     if (!userId) throw new TypeError("An user id was not provided.");
     if (!guildId) throw new TypeError("A guild id was not provided.");
@@ -59,7 +57,6 @@ class DiscordXp {
   * @param {number} [xp] - Amount of xp to append.
   * @param {import("./typings/index.js").Level_Type} types
   */
-
   static async appendXp(userId, guildId, xp, types) {
     if (!userId) throw new TypeError("An user id was not provided.");
     if (!guildId) throw new TypeError("A guild id was not provided.");
@@ -90,7 +87,6 @@ class DiscordXp {
   * @param {number} [levels] - Amount of levels to append.
   * @param {import("./typings/index.js").Level_Type} types
   */
-
   static async appendLevel(userId, guildId, levelss, types) {
     if (!userId) throw new TypeError("An user id was not provided.");
     if (!guildId) throw new TypeError("A guild id was not provided.");
@@ -114,7 +110,6 @@ class DiscordXp {
   * @param {number} [xp] - Amount of xp to set.
   * @param {import("./typings/index.js").Level_Type} types
   */
-
   static async setXp(userId, guildId, xp, types) {
     if (!userId) throw new TypeError("An user id was not provided.");
     if (!guildId) throw new TypeError("A guild id was not provided.");
@@ -138,7 +133,6 @@ class DiscordXp {
   * @param {number} [level] - A level to set.
   * @param {import("./typings/index.js").Level_Type} types
   */
-
   static async setLevel(userId, guildId, level, types) {
     if (!userId) throw new TypeError("An user id was not provided.");
     if (!guildId) throw new TypeError("A guild id was not provided.");
@@ -161,7 +155,6 @@ class DiscordXp {
   * @param {string} [guildId] - Discord guild id.
   * @param {import("./typings/index.js").Level_Type} types
   */
-
   static async fetch(userId, guildId, types, fetchPosition = false) {
     if (!userId) throw new TypeError("An user id was not provided.");
     if (!guildId) throw new TypeError("A guild id was not provided.");
@@ -189,7 +182,6 @@ class DiscordXp {
   * @param {number} [xp] - Amount of xp to subtract.
   * @param {import("./typings/index.js").Level_Type} types
   */
-
   static async subtractXp(userId, guildId, xp, types) {
     if (!userId) throw new TypeError("An user id was not provided.");
     if (!guildId) throw new TypeError("A guild id was not provided.");
@@ -213,7 +205,6 @@ class DiscordXp {
   * @param {number} [levels] - Amount of levels to subtract.
   * @param {import("./typings/index.js").Level_Type} types
   */
-
   static async subtractLevel(userId, guildId, levelss, types) {
     if (!userId) throw new TypeError("An user id was not provided.");
     if (!guildId) throw new TypeError("A guild id was not provided.");
@@ -236,8 +227,6 @@ class DiscordXp {
   * @param {number} [limit] - Amount of maximum enteries to return.
   * @param {import("./typings/index.js").Level_Type} types
   */
-
-
   static async fetchLeaderboard(guildId, limit, types) {
     if (!guildId) throw new TypeError("A guild id was not provided.");
     if (!limit) throw new TypeError("A limit was not provided.");
@@ -251,7 +240,6 @@ class DiscordXp {
   * @param {string} [client] - Your Discord.CLient.
   * @param {array} [leaderboard] - The output from 'fetchLeaderboard' function.
   */
-
   static async computeLeaderboard(client, leaderboard, fetchUsers = false) {
     if (!client) throw new TypeError("A client was not provided.");
     if (!leaderboard) throw new TypeError("A leaderboard id was not provided.");
@@ -301,7 +289,6 @@ class DiscordXp {
   /**
   * @param {string} [guildId] - Discord guild id.
   */
-
   static async deleteGuild(guildId) {
     if (!guildId) throw new TypeError("A guild id was not provided.");
 
@@ -313,6 +300,9 @@ class DiscordXp {
     return guild;
   }
 
+  /**
+   * 레벨 DB를 초기화하고 모든 데이터를 삭제합니다.
+   */
   static async ResetLevel() {
     await levels.deleteMany().catch(e => console.log(`Failed to delete guild: ${e}`));
     return true
