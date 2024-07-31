@@ -248,29 +248,24 @@ class DiscordXp {
 
     const computedArray = [];
 
-    if (fetchUsers) {
-      for (const key of leaderboard) {
-        const user = await client.users.fetch(key.userID) || { username: "Unknown", discriminator: "0000" };
-        computedArray.push({
-          guildID: key.guildID,
-          userID: key.userID,
-          xp: key.xp,
-          level: key.level,
-          position: (leaderboard.findIndex(i => i.guildID === key.guildID && i.userID === key.userID) + 1),
-          username: user.username,
-          discriminator: user.discriminator
-        });
-      }
-    } else {
-      leaderboard.map(key => computedArray.push({
-        guildID: key.guildID,
-        userID: key.userID,
+    for (const key of leaderboard) {
+      const cachedUser = client.users.cache.get(key.userID);
+      const user = fetchUsers 
+        ? (await client.users.fetch(key.userId) || { username: "Unknown", discriminator: "0000" })
+        : {
+          username: cachedUser ? cachedUser.username : "Unknown",
+          discriminator: cachedUser ? cachedUser.discriminator : "0000"
+        }
+      
+      computedArray.push({
+        guildId: key.guildID,
+        userId: key.userID,
         xp: key.xp,
         level: key.level,
         position: (leaderboard.findIndex(i => i.guildID === key.guildID && i.userID === key.userID) + 1),
-        username: client.users.cache.get(key.userID) ? client.users.cache.get(key.userID).username : "Unknown",
-        discriminator: client.users.cache.get(key.userID) ? client.users.cache.get(key.userID).discriminator : "0000"
-      }));
+        username: user.username,
+        discriminator: user.discriminator,
+      });
     }
 
     return computedArray;
