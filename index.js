@@ -231,9 +231,24 @@ class DiscordXp {
     if (!guildId) throw new TypeError("A guild id was not provided.");
     if (!limit) throw new TypeError("A limit was not provided.");
 
-    var users = await levels.find({ guildID: guildId, type: types }).sort([['xp', 'descending']]).exec();
+    const users = await levels.find({ guildID: guildId, type: types }).sort([['xp', 'descending']]).exec();
 
     return users.slice(0, limit);
+  }
+  
+  /**
+   * @param {string} [guildId] - Discord guild id.
+   * @param {import("./index.d.ts").Level_Type} types
+   * @param {number} [limit] - Amount of maximum entries to return.
+   * @param {number} [page] - Page starts from 1
+   */
+  static async nativeFetchLeaderboard(guildId, types, limit, page = 1) {
+    if (!guildId) throw new TypeError("A guild id was not provided.");
+    if (!limit) throw new TypeError("A limit was not provided.");
+    
+    const users = await levels.find({ guildID: guildId, type: types }).sort([['xp', 'descending']]).skip((page - 1) * limit).limit(limit).exec();
+    
+    return users;
   }
 
   /**
@@ -269,6 +284,16 @@ class DiscordXp {
     }
 
     return computedArray;
+  }
+  
+  /**
+   * @param {number} [page] - Page starts from 1
+   * @param {array} [computedLeaderboard] - output from `computeLeaderboard` function.
+   */
+  static async paginateLeaderboard(page, computedLeaderboard) {
+    if (!computedLeaderboard) throw new TypeError("A leaderboard was not provided.");
+    
+    return computedLeaderboard.map((entry) => ({ ...entry, position: entry.position + ((page - 1) * computedLeaderboard.length) }))
   }
 
   /*
